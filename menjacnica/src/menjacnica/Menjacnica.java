@@ -8,21 +8,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 
+import biblioteka.Knjiga;
+import biblioteka.sistemskeoperacije.SODodajKnjigu;
+import menjacnica.sistemskeoperacije.SODodajValutu;
+
 public class Menjacnica implements MenjacnicaInterface{
 	
 	private LinkedList<Valuta> kursnaLista = new LinkedList<Valuta>();
 
-	@Override
 	public void dodajValutu(Valuta valuta) {
-		if (valuta==null)
-			throw new RuntimeException("Valuta ne sme biti null");
-		
-		if (kursnaLista.contains(valuta))
-			throw new RuntimeException("Valuta je vec uneta u kursnu listu");
-		
-		kursnaLista.add(valuta);		
+		SODodajValutu.izvrsi(valuta, kursnaLista);
 	}
-
+	
 	@Override
 	public void obrisiValutu(Valuta valuta) {
 		if (!kursnaLista.contains(valuta))
@@ -70,6 +67,12 @@ public class Menjacnica implements MenjacnicaInterface{
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void dodajValutu(Valuta valuta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
