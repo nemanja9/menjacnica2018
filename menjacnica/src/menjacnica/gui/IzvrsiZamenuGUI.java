@@ -1,8 +1,4 @@
 package menjacnica.gui;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,18 +8,13 @@ import java.awt.Dimension;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import javax.swing.ButtonGroup;
 
 import menjacnica.Valuta;
@@ -33,6 +24,10 @@ import java.awt.Toolkit;
 
 public class IzvrsiZamenuGUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblKupovni;
 	private JLabel lblProdajniKurs;
@@ -51,14 +46,12 @@ public class IzvrsiZamenuGUI extends JFrame {
 	private JTextField textFieldValuta;
 	private JLabel lblKonacniIznos;
 	public static JTextField textFieldKonacniIznos;
-
-	private MenjacnicaGUI glavniProzor;
 	private Valuta valuta;
 
 	/**
 	 * Create the frame.
 	 */
-	public IzvrsiZamenuGUI(MenjacnicaGUI glavniProzor, Valuta valuta) {
+	public IzvrsiZamenuGUI( Valuta valuta) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvrsiZamenuGUI.class.getResource("/icons/Screenshot.png")));
 		setTitle("Izvrsi zamenu");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -84,8 +77,6 @@ public class IzvrsiZamenuGUI extends JFrame {
 		contentPane.add(getLblKonacniIznos());
 		contentPane.add(getTextFieldKonacniIznos());
 
-		// podesavanje
-		// this.glavniProzor = glavniProzor;
 		this.valuta = valuta;
 
 		prikaziValutu();
@@ -180,7 +171,7 @@ public class IzvrsiZamenuGUI extends JFrame {
 						GUIKontroler.izvrsiZamenu(valuta, !rdbtnKupovina.isSelected(),
 								Double.parseDouble(textFieldIznos.getText()));
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(glavniProzor, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
 					}
 
 				}

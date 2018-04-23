@@ -14,12 +14,10 @@ import menjacnica.gui.MenjacnicaGUI;
 import menjacnica.gui.ObrisiKursGUI;
 import menjacnica.gui.models.MenjacnicaTableModel;
 
-
 public class GUIKontroler {
 	public static MenjacnicaInterface menjacnica = new Menjacnica();
 	public static MenjacnicaGUI gp;
 
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -63,75 +61,82 @@ public class GUIKontroler {
 		}
 	}
 
-	
-
 	public static void prikaziDodajKursGUI() {
-		
-			DodajKursGUI prozor = new DodajKursGUI();
-			prozor.setLocationRelativeTo(gp);
-			prozor.setVisible(true);
-			
-		
+
+		DodajKursGUI prozor = new DodajKursGUI();
+		prozor.setLocationRelativeTo(gp);
+		prozor.setVisible(true);
+
 	}
 
 	public static void prikaziObrisiKursGUI() {
 
-		if (MenjacnicaGUI.table.getSelectedRow() != -1) {
-			MenjacnicaTableModel model = (MenjacnicaTableModel) (MenjacnicaGUI.table.getModel());
-			ObrisiKursGUI prozor = new ObrisiKursGUI(gp, model.vratiValutu(MenjacnicaGUI.table.getSelectedRow()));
+		try {
+			if (MenjacnicaGUI.table.getSelectedRow() != -1) {
+				MenjacnicaTableModel model = (MenjacnicaTableModel) (MenjacnicaGUI.table.getModel());
+				ObrisiKursGUI prozor = new ObrisiKursGUI(model.vratiValutu(MenjacnicaGUI.table.getSelectedRow()));
+				prozor.setLocationRelativeTo(gp);
+				prozor.setVisible(true);
+			}
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	public static void prikaziIzvrsiZamenuGUI() {
+
+		if (gp.table.getSelectedRow() != -1) {
+			MenjacnicaTableModel model = (MenjacnicaTableModel) (gp.table.getModel());
+			IzvrsiZamenuGUI prozor = new IzvrsiZamenuGUI( model.vratiValutu(gp.table.getSelectedRow()));
 			prozor.setLocationRelativeTo(gp);
 			prozor.setVisible(true);
 		}
 	}
-	public static void unesiKurs(int sifra, String naziv, double prodajni, double
-			kupovni, double srednji, String skraceni) {
+	
+public static void unesiKurs(int sifra, String naziv, double prodajni, double kupovni, double srednji,
+			String skraceni) {
 		try {
 			Valuta v = new Valuta();
-			
+
 			v.setKupovni(kupovni);
 			v.setNaziv(naziv);
 			v.setProdajni(prodajni);
 			v.setSifra(sifra);
 			v.setSkraceniNaziv(skraceni);
 			v.setSrednji(srednji);
-			
+
 			menjacnica.dodajValutu(v);
 
 			gp.prikaziSveValute();
 
 		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, e1.getMessage(),
-					"Greska", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	public static void obrisiValutu(Valuta valuta) {
-		try{
-			menjacnica.obrisiValutu(valuta);
-			
-			if (menjacnica.vratiKursnuListu() != null && !(menjacnica.vratiKursnuListu().isEmpty()))
-			gp.prikaziSveValute(menjacnica.vratiKursnuListu());
-			
-			
-		} catch (Exception e1) {
-			if (!(e1.getMessage().isEmpty()))
-			JOptionPane.showMessageDialog(gp, e1.getMessage(),
-					"Greska", JOptionPane.ERROR_MESSAGE);
-			
+			JOptionPane.showMessageDialog(null, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	
-	public static void izvrsiZamenu(Valuta valuta, boolean prodaja, double iznos){
-		try{
-			double konacniIznos = 
-					menjacnica.izvrsiTransakciju(valuta,prodaja, iznos);
-		
+	public static void obrisiValutu(Valuta valuta) {
+		try {
+			menjacnica.obrisiValutu(valuta);
+
+			
+				gp.prikaziSveValute();
+
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(gp, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+
+		}
+	}
+
+	public static void izvrsiZamenu(Valuta valuta, boolean prodaja, double iznos) {
+		try {
+			double konacniIznos = menjacnica.izvrsiTransakciju(valuta, prodaja, iznos);
+
 			IzvrsiZamenuGUI.textFieldKonacniIznos.setText("" + konacniIznos);
 		} catch (Exception e1) {
-		JOptionPane.showMessageDialog(gp, e1.getMessage(),
-				"Greska", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(gp, e1.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+		}
 	}
-	}
-	
 
 }

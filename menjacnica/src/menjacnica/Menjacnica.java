@@ -18,7 +18,7 @@ public class Menjacnica implements MenjacnicaInterface {
 	}
 
 	@Override
-	public void obrisiValutu(Valuta valuta) {
+	public void obrisiValutu(Valuta valuta) throws RuntimeException {
 		SOObrisiValutu.izvrsi(valuta, kursnaLista);
 	}
 
